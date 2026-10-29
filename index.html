@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operating System Project</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Live Animated Ambient Mesh Gradient Background -->
+  <div class="ambient-gradient-container" aria-hidden="true">
+    <div class="gradient-orb orb-cobalt"></div>
+    <div class="gradient-orb orb-amber"></div>
+    <div class="gradient-orb orb-forest"></div>
+    <div class="gradient-orb orb-violet"></div>
+  </div>
+
+  <!-- Workstation Header -->
+  <header class="workstation-header">
+    <div class="header-brand-block">
+      <div class="header-monogram-box">OS</div>
+      <div class="header-brand-titles">
+        <h1>Operating System Project</h1>
+      </div>
+    </div>
+
+    <div class="header-actions no-print">
+      <button class="tech-btn tech-btn-secondary tech-btn-sm" onclick="window.print()">
+        Print Current Page
+      </button>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="workstation-tabs no-print">
+    <button class="tab-nav-btn active" data-tab="page-replacement">
+      Page Replacement
+    </button>
+    <button class="tab-nav-btn" data-tab="cpu-scheduling">
+      CPU Scheduling
+    </button>
+    <button class="tab-nav-btn" data-tab="linux-guide">
+      Linux Commands
+    </button>
+  </nav>
+
+  <!-- Main Content Frame -->
+  <main class="workstation-main">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: MEMORY PAGE REPLACEMENT & ANIMATED TIMELINE                        -->
+    <!-- ========================================================================= -->
+    <section id="tab-page-replacement" class="workstation-view active">
+
+      <!-- Telemetry Tiles Row -->
+      <div class="telemetry-row">
+        <div class="telemetry-tile terracotta">
+          <div class="tile-label-tag" title="Total number of page faults across all reference steps">Total Page Faults</div>
+          <div class="tile-metric-value" id="pr-stat-faults" style="color:var(--accent-rose);">0</div>
+        </div>
+        <div class="telemetry-tile forest">
+          <div class="tile-label-tag" title="Total number of cache hits (page already in memory)">Total Page Hits</div>
+          <div class="tile-metric-value" id="pr-stat-hits" style="color:var(--accent-emerald);">0</div>
+        </div>
+        <div class="telemetry-tile cobalt">
+          <div class="tile-label-tag" title="Hits / Total References × 100">Cache Hit Ratio</div>
+          <div class="tile-metric-value" id="pr-stat-hit-ratio" style="color:var(--accent-blue);">0.0%</div>
+        </div>
+        <div class="telemetry-tile amber">
+          <div class="tile-label-tag" title="Faults / Total References × 100">Fault Penalty Ratio</div>
+          <div class="tile-metric-value" id="pr-stat-fault-ratio" style="color:var(--accent-amber);">0.0%</div>
+        </div>
+      </div>
+
+      <!-- Input Specification Card -->
+      <div class="frosted-card">
+        <div class="card-headline-row">
+          <div>
+            <h2 class="card-main-title">Virtual Memory Page Replacement</h2>
+            <p class="card-sub-description">Evaluate fault rates, resident frame states, and hit ratios across FIFO, LRU, Optimal, and LFU.</p>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label class="input-label-tag" for="pr-reference-input">Page Access Reference String</label>
+            <input type="text" id="pr-reference-input" class="tech-input tech-input-mono" value="7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1" />
+
+          </div>
+
+          <div>
+            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+              <div style="flex:1; min-width:130px;">
+                <label class="input-label-tag" for="pr-frames-input">Physical Frames (1 to 10)</label>
+                <input type="number" id="pr-frames-input" class="tech-input tech-input-mono" min="1" max="10" value="3" />
+              </div>
+              <div style="flex:1.5; min-width:200px;">
+                <label class="input-label-tag" for="pr-algo-select">Algorithm Selection</label>
+                <select id="pr-algo-select" class="tech-input">
+                  <option value="ALL">All Algorithms (Comparative Analysis)</option>
+                  <option value="FIFO">First-In First-Out (FIFO)</option>
+                  <option value="LRU">Least Recently Used (LRU)</option>
+                  <option value="Optimal">Optimal (OPT / Belady Benchmark)</option>
+                  <option value="LFU">Least Frequently Used (LFU)</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top:0.75rem;">
+              <button id="pr-run-btn" class="tech-btn tech-btn-primary" style="width:100%;">
+                Run Simulation
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playback Instrument Controller -->
+      <div class="playback-chassis">
+        <div class="playback-upper-deck">
+          <div class="playback-button-cluster">
+            <button class="transport-btn" id="pr-reset-btn" aria-label="Reset playback">Reset</button>
+            <button class="transport-btn" id="pr-step-back-btn" aria-label="Step backward">Step Back</button>
+            <button class="transport-btn play-action" id="pr-play-btn" aria-label="Play/Pause playback">Play</button>
+            <button class="transport-btn" id="pr-step-fwd-btn" aria-label="Step forward">Step Next</button>
+            <button class="transport-btn" id="pr-jump-end-btn" aria-label="Jump to end">End</button>
+          </div>
+
+          <div class="speed-dial-group">
+            <button class="speed-dial-btn pr-speed-pill" data-speed="0.5">0.5x</button>
+            <button class="speed-dial-btn pr-speed-pill active" data-speed="1">1.0x</button>
+            <button class="speed-dial-btn pr-speed-pill" data-speed="2">2.0x</button>
+            <button class="speed-dial-btn pr-speed-pill" data-speed="4">4.0x</button>
+          </div>
+        </div>
+
+        <div class="scrubber-track-frame" id="pr-scrubber-track">
+          <div class="scrubber-progress-line" id="pr-scrubber-progress"></div>
+        </div>
+
+        <div class="playback-readout-deck">
+          <div class="action-readout-text">
+            <span class="status-live-beacon"></span>
+            <span id="pr-action-ticker">Select Play to begin step-by-step memory trace.</span>
+          </div>
+          <div class="cell-mono" id="pr-step-indicator" style="font-weight:600;">Step 1 of 20</div>
+        </div>
+      </div>
+
+      <!-- Physical Memory Frame Register Units -->
+      <div class="frosted-card">
+        <div class="card-headline-row">
+          <div>
+            <h3 class="card-main-title">Physical RAM Frame Registers</h3>
+            <p class="card-sub-description">Real-time inspection of resident pages across memory slots with Hit/Miss spring physics.</p>
+          </div>
+        </div>
+        <div class="hardware-ram-deck" id="hardware-ram-rack">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Comparative Summary & Chart -->
+      <div class="grid-2">
+        <div class="frosted-card">
+          <div class="card-headline-row">
+            <div>
+              <h3 class="card-main-title">Comparative Performance Summary</h3>
+              <p class="card-sub-description">Evaluated under the identical reference access string.</p>
+            </div>
+          </div>
+          <div class="table-glass-wrap">
+            <table class="tech-table">
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>References</th>
+                  <th>Frames</th>
+                  <th>Faults</th>
+                  <th>Hits</th>
+                  <th>Hit Ratio</th>
+                  <th>Fault Ratio</th>
+                </tr>
+              </thead>
+              <tbody id="pr-comparison-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="frosted-card">
+          <div class="card-headline-row">
+            <div>
+              <h3 class="card-main-title">Page Faults vs Hits Distribution</h3>
+              <p class="card-sub-description">Comparative breakdown across all policies.</p>
+            </div>
+          </div>
+          <div style="height: 270px;" id="pr-chart-box">
+            <!-- Injected via JS SVG -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytical Statement -->
+      <div class="frosted-card" style="border-left: 4px solid var(--accent-blue);">
+        <h4 style="font-size: 0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; margin-bottom: 0.4rem; color: var(--accent-blue);">
+          Comparative Statement
+        </h4>
+        <div id="pr-statement-text" style="font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.65;">
+          Calculating memory telemetry...
+        </div>
+      </div>
+
+      <!-- Frame Matrix Table -->
+      <div class="frosted-card">
+        <div class="card-headline-row">
+          <div>
+            <h3 class="card-main-title">Frame State Allocation Matrix</h3>
+            <p class="card-sub-description">Step-by-step memory residency across all reference steps.</p>
+          </div>
+        </div>
+        <div id="pr-matrix-wrap">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Algorithm Race: Side-by-Side Comparison -->
+      <div class="frosted-card">
+        <div class="card-headline-row">
+          <div>
+            <h3 class="card-main-title">Algorithm Race: Side-by-Side Comparison</h3>
+            <p class="card-sub-description">Watch two algorithms process the same reference string simultaneously.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label class="input-label-tag" for="race-algo-a">Algorithm A</label>
+            <select id="race-algo-a" class="tech-input">
+              <option value="FIFO">FIFO</option>
+              <option value="LRU">LRU</option>
+              <option value="Optimal">Optimal</option>
+              <option value="LFU">LFU</option>
+            </select>
+          </div>
+          <div>
+            <label class="input-label-tag" for="race-algo-b">Algorithm B</label>
+            <select id="race-algo-b" class="tech-input">
+              <option value="LRU">LRU</option>
+              <option value="FIFO">FIFO</option>
+              <option value="Optimal">Optimal</option>
+              <option value="LFU">LFU</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top: 0.75rem; display:flex; gap:0.5rem; align-items:center;">
+          <button id="race-run-btn" class="tech-btn tech-btn-primary">Start Race</button>
+          <button id="race-step-btn" class="tech-btn tech-btn-secondary">Step</button>
+          <span id="race-step-indicator" class="cell-mono" style="font-weight:600; margin-left:auto;">Step 1 of 20</span>
+        </div>
+        <div class="grid-2" id="race-containers">
+          <div class="frosted-card" style="min-height: 300px;">
+            <div class="card-headline-row">
+              <div>
+                <h4 class="card-main-title" style="font-size:0.9rem;">Algorithm A: <span id="race-name-a">FIFO</span></h4>
+                <p class="card-sub-description" style="font-size:0.8rem;">Frame registers</p>
+              </div>
+            </div>
+            <div id="race-rack-a" class="hardware-ram-deck" style="display:flex; flex-wrap:wrap; gap:0.5rem; padding:1rem;"></div>
+          </div>
+          <div class="frosted-card" style="min-height: 300px;">
+            <div class="card-headline-row">
+              <div>
+                <h4 class="card-main-title" style="font-size:0.9rem;">Algorithm B: <span id="race-name-b">LRU</span></h4>
+                <p class="card-sub-description" style="font-size:0.8rem;">Frame registers</p>
+              </div>
+            </div>
+            <div id="race-rack-b" class="hardware-ram-deck" style="display:flex; flex-wrap:wrap; gap:0.5rem; padding:1rem;"></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: CPU SCHEDULING DISPATCHER                                          -->
+    <!-- ========================================================================= -->
+    <section id="tab-cpu-scheduling" class="workstation-view">
+
+      <!-- Telemetry Tiles Row -->
+      <div class="telemetry-row">
+        <div class="telemetry-tile cobalt">
+          <div class="tile-label-tag" title="Average time processes spend waiting in ready queue">Avg Waiting Time (AWT)</div>
+          <div class="tile-metric-value" id="cpu-stat-awt" style="color:var(--accent-blue);">0.00 ms</div>
+        </div>
+        <div class="telemetry-tile forest">
+          <div class="tile-label-tag" title="Average time from process arrival to completion">Avg Turnaround Time</div>
+          <div class="tile-metric-value" id="cpu-stat-atat" style="color:var(--accent-emerald);">0.00 ms</div>
+        </div>
+        <div class="telemetry-tile amber">
+          <div class="tile-label-tag" title="Average time from process arrival to first CPU access">Avg Response Time</div>
+          <div class="tile-metric-value" id="cpu-stat-art" style="color:var(--accent-amber);">0.00 ms</div>
+        </div>
+        <div class="telemetry-tile">
+          <div class="tile-label-tag" title="Percentage of time CPU is busy executing processes">CPU Core Utilization</div>
+          <div class="tile-metric-value" id="cpu-stat-util">0.0%</div>
+        </div>
+      </div>
+
+      <!-- CPU Core Dispatcher Deck -->
+      <div class="cpu-dispatcher-bar">
+        <div class="core-indicator-box">
+          <div class="core-badge-num">CPU 0</div>
+          <div class="core-activity-info">
+            <h4>Executing Task</h4>
+            <div class="running-pid-large" id="cpu-running-proc">IDLE</div>
+          </div>
+        </div>
+
+        <div class="ready-queue-bar">
+          <span class="queue-label-text">Ready Queue:</span>
+          <div class="queue-chips-strip" id="cpu-ready-queue-list">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Configuration Card -->
+      <div class="frosted-card">
+        <div class="card-headline-row">
+          <div>
+            <h2 class="card-main-title">CPU Scheduling Algorithms Comparator</h2>
+            <p class="card-sub-description">Benchmark FCFS, SJF (NP), SRTF (Preemptive), Priority (NP/Preemptive), and Round Robin.</p>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;"></div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label class="input-label-tag">Workload Benchmark Presets</label>
+            <div class="presets-strip">
+              <span class="preset-chip-btn cpu-preset-chip" data-preset="standard">Standard Workload</span>
+              <span class="preset-chip-btn cpu-preset-chip" data-preset="convoy">Convoy Effect Test (Large BT First)</span>
+              <span class="preset-chip-btn cpu-preset-chip" data-preset="preemption">Preemption Showcase</span>
+            </div>
+
+            <div style="display:flex; gap:1rem; margin-top:0.75rem; flex-wrap:wrap;">
+              <div style="flex:1; min-width:130px;">
+                <label class="input-label-tag" for="cpu-quantum-input">RR Quantum (q)</label>
+                <input type="number" id="cpu-quantum-input" class="tech-input tech-input-mono" min="1" value="2" />
+              </div>
+              <div style="flex:1.5; min-width:180px;">
+                <label class="input-label-tag" for="cpu-priority-rule">Priority Rule</label>
+                <select id="cpu-priority-rule" class="tech-input">
+                  <option value="lower-is-higher">Lower Number = Higher Priority</option>
+                  <option value="higher-is-higher">Higher Number = Higher Priority</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <label class="input-label-tag" for="cpu-algo-select">Algorithm Selection</label>
+              <select id="cpu-algo-select" class="tech-input">
+                <option value="ALL">All 6 Algorithms (Comparative Analysis)</option>
+                <option value="SRTF">Shortest Remaining Time First (SRTF)</option>
+                <option value="SJF">Shortest Job First (Non-Preemptive SJF)</option>
+                <option value="RoundRobin">Round Robin (RR)</option>
+                <option value="PriorityP">Priority (Preemptive)</option>
+                <option value="PriorityNP">Priority (Non-Preemptive)</option>
+                <option value="FCFS">First-Come First-Served (FCFS)</option>
+              </select>
+            </div>
+
+            <div style="display:flex; gap:0.65rem; margin-top:0.75rem;">
+              <button id="cpu-add-proc-btn" class="tech-btn tech-btn-secondary" style="flex:1;">
+                Add Process
+              </button>
+              <button id="cpu-run-btn" class="tech-btn tech-btn-primary" style="flex:2;">
+                Run Simulation
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Process Table -->
+        <div class="table-glass-wrap">
+          <table class="tech-table">
+            <thead>
+              <tr>
+                <th>Process ID</th>
+                <th>Arrival Time (AT)</th>
+                <th>Burst Time (BT)</th>
+                <th>Priority</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="cpu-process-input-tbody">
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Playback Instrument Controller: CPU -->
+      <div class="playback-chassis">
+        <div class="playback-upper-deck">
+          <div class="playback-button-cluster">
+            <button class="transport-btn" id="cpu-reset-btn" aria-label="Reset playback">Reset</button>
+            <button class="transport-btn" id="cpu-step-back-btn" aria-label="Step backward">Step Back</button>
+            <button class="transport-btn play-action" id="cpu-play-btn" aria-label="Play/Pause playback">Play</button>
+            <button class="transport-btn" id="cpu-step-fwd-btn" aria-label="Step forward">Step Next</button>
+            <button class="transport-btn" id="cpu-jump-end-btn" aria-label="Jump to end">End</button>
+          </div>
+
+          <div class="speed-dial-group">
+            <button class="speed-dial-btn cpu-speed-pill" data-speed="0.5">0.5x</button>
+            <button class="speed-dial-btn cpu-speed-pill active" data-speed="1">1.0x</button>
+            <button class="speed-dial-btn cpu-speed-pill" data-speed="2">2.0x</button>
+            <button class="speed-dial-btn cpu-speed-pill" data-speed="4">4.0x</button>
+          </div>
+        </div>
+
+        <div class="scrubber-track-frame" id="cpu-scrubber-track">
+          <div class="scrubber-progress-line" id="cpu-scrubber-progress"></div>
+        </div>
+
+        <div class="playback-readout-deck">
+          <div class="action-readout-text">
+            <span class="status-live-beacon"></span>
+            <span id="cpu-action-ticker">Select Play to begin time-sliced dispatch simulation.</span>
+          </div>
+          <div class="cell-mono" id="cpu-time-indicator" style="font-weight:600;">Time: 0 ms / 0 ms</div>
+        </div>
+      </div>
+
+      <!-- Gantt Timeline Chassis -->
+      <div class="frosted-card">
+        <div class="card-headline-row">
+          <div>
+            <h3 class="card-main-title">Gantt Execution Timeline & Process Metrics</h3>
+            <p class="card-sub-description">Active execution block is tracked in real-time as the scrubber advances.</p>
+          </div>
+        </div>
+        <div id="cpu-details-wrap">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Comparative Summary & Chart -->
+      <div class="grid-2">
+        <div class="frosted-card">
+          <div class="card-headline-row">
+            <div>
+              <h3 class="card-main-title">Scheduling Metrics Summary</h3>
+              <p class="card-sub-description">Evaluated under identical process workloads.</p>
+            </div>
+          </div>
+          <div class="table-glass-wrap">
+            <table class="tech-table">
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Total WT</th>
+                  <th>Avg WT</th>
+                  <th>Total TAT</th>
+                  <th>Avg TAT</th>
+                  <th>Avg RT</th>
+                  <th>Util</th>
+                </tr>
+              </thead>
+              <tbody id="cpu-comparison-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="frosted-card">
+          <div class="card-headline-row">
+            <div>
+              <h3 class="card-main-title">Average Waiting & Turnaround Times (ms)</h3>
+              <p class="card-sub-description">Lower values denote reduced queuing latency.</p>
+            </div>
+          </div>
+          <div style="height: 270px;" id="cpu-chart-box">
+            <!-- Injected via JS SVG -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytical Statement -->
+      <div class="frosted-card" style="border-left: 4px solid var(--accent-blue);">
+        <h4 style="font-size: 0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; margin-bottom: 0.4rem; color: var(--accent-blue);">
+          Scheduling Comparative Statement
+        </h4>
+        <div id="cpu-statement-text" style="font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.65;">
+          Evaluating process queue telemetry...
+        </div>
+      </div>
+
+      <!-- Algorithm Race: Side-by-Side CPU Comparison -->
+      <div class="frosted-card">
+        <div class="card-headline-row">
+          <div>
+            <h3 class="card-main-title">Algorithm Race: Side-by-Side CPU Comparison</h3>
+            <p class="card-sub-description">Watch two scheduling algorithms process the same workload simultaneously.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label class="input-label-tag" for="race-cpu-algo-a">Algorithm A</label>
+            <select id="race-cpu-algo-a" class="tech-input">
+              <option value="SRTF">SRTF</option>
+              <option value="SJF">SJF</option>
+              <option value="FCFS">FCFS</option>
+              <option value="RoundRobin">Round Robin</option>
+              <option value="PriorityP">Priority (Preemptive)</option>
+              <option value="PriorityNP">Priority (Non-Preemptive)</option>
+            </select>
+          </div>
+          <div>
+            <label class="input-label-tag" for="race-cpu-algo-b">Algorithm B</label>
+            <select id="race-cpu-algo-b" class="tech-input">
+              <option value="FCFS">FCFS</option>
+              <option value="SRTF">SRTF</option>
+              <option value="SJF">SJF</option>
+              <option value="RoundRobin">Round Robin</option>
+              <option value="PriorityP">Priority (Preemptive)</option>
+              <option value="PriorityNP">Priority (Non-Preemptive)</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top: 0.75rem; display:flex; gap:0.5rem; align-items:center;">
+          <button id="race-cpu-run-btn" class="tech-btn tech-btn-primary">Start Race</button>
+          <span id="race-cpu-info" class="cell-mono" style="font-weight:600; margin-left:auto;">Same workload for both</span>
+        </div>
+        <div class="grid-2" id="race-cpu-containers">
+          <div class="frosted-card" style="min-height: 320px;">
+            <div class="card-headline-row">
+              <div>
+                <h4 class="card-main-title" style="font-size:0.9rem;">Algorithm A: <span id="race-cpu-name-a">SRTF</span></h4>
+                <p class="card-sub-description" style="font-size:0.8rem;">Gantt Timeline</p>
+              </div>
+            </div>
+            <div id="race-cpu-gantt-a" style="padding:1rem; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); background:var(--bg-glass-card);"></div>
+          </div>
+          <div class="frosted-card" style="min-height: 320px;">
+            <div class="card-headline-row">
+              <div>
+                <h4 class="card-main-title" style="font-size:0.9rem;">Algorithm B: <span id="race-cpu-name-b">FCFS</span></h4>
+                <p class="card-sub-description" style="font-size:0.8rem;">Gantt Timeline</p>
+              </div>
+            </div>
+            <div id="race-cpu-gantt-b" style="padding:1rem; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); background:var(--bg-glass-card);"></div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="frosted-card">
+            <div class="card-headline-row">
+              <div>
+                <h4 class="card-main-title" style="font-size:0.9rem;">Algorithm A Metrics</h4>
+              </div>
+            </div>
+            <div id="race-cpu-metrics-a" style="padding:1rem; font-family:var(--font-mono); font-size:0.85rem;"></div>
+          </div>
+          <div class="frosted-card">
+            <div class="card-headline-row">
+              <div>
+                <h4 class="card-main-title" style="font-size:0.9rem;">Algorithm B Metrics</h4>
+              </div>
+            </div>
+            <div id="race-cpu-metrics-b" style="padding:1rem; font-family:var(--font-mono); font-size:0.85rem;"></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: LINUX SYSTEMS ADMINISTRATION & SHELL                               -->
+    <!-- ========================================================================= -->
+    <section id="tab-linux-guide" class="workstation-view">
+      <div class="frosted-card">
+        <div class="card-headline-row" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">
+          <div>
+            <h2 class="card-main-title">Linux Systems Administration Command Hub</h2>
+            <p class="card-sub-description">POSIX technical reference manual with syntax, options, and live virtual terminal simulation with stream piping.</p>
+          </div>
+          <div></div>
+        </div>
+      </div>
+
+      <div class="linux-layout-split">
+        <!-- Sidebar Navigation -->
+        <div>
+          <div class="linux-menu-rail">
+            <div class="rail-category-title">Command Categories</div>
+            <button class="rail-menu-btn active" data-cat="all">All Systems Commands</button>
+            <button class="rail-menu-btn" data-cat="files">Filesystem Management</button>
+            <button class="rail-menu-btn" data-cat="process">Process Control</button>
+            <button class="rail-menu-btn" data-cat="permissions">Security & Permissions</button>
+            <button class="rail-menu-btn" data-cat="system">Storage & Hardware</button>
+            <button class="rail-menu-btn" data-cat="text">Text Processing</button>
+            <button class="rail-menu-btn" data-cat="network">TCP/IP & Network</button>
+          </div>
+
+          <!-- Technical Terminal -->
+          <div class="technical-terminal-chassis">
+            <div class="terminal-top-rail">
+              <div class="terminal-traffic-lights">
+                <div class="traffic-light red"></div>
+                <div class="traffic-light yellow"></div>
+                <div class="traffic-light green"></div>
+              </div>
+              <span class="terminal-title-label">sysadmin@kernel-lab (bash)</span>
+              <span style="font-size:0.7rem; color:#a8a8a2;">POSIX v2.4</span>
+            </div>
+            <div class="terminal-content-buffer" id="terminal-screen">
+              <div style="color:#38bdf8; margin-bottom:0.4rem;">
+                OS-KernelLab POSIX Shell Simulator v2.4 (Ubuntu 22.04 LTS emulation)
+              </div>
+              <div style="color:#a8a8a2; margin-bottom:0.6rem;">
+                Type 'help' for command reference or click 'Execute' on any reference card.
+              </div>
+            </div>
+            <div class="terminal-input-deck">
+              <span style="color:#38bdf8; font-family:var(--font-mono); font-size:0.85rem; font-weight:700;">$</span>
+              <input type="text" id="terminal-cli-input" class="terminal-raw-input" placeholder="Type Linux command (e.g. ls -lah, ps aux, df -h, free -h)..." autocomplete="off" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Command Cards Stream -->
+        <div>
+          <div style="margin-bottom: 1.25rem;">
+            <input type="text" id="linux-search-input" class="tech-input" placeholder="Search commands by name, flag, or operation (e.g. grep, kill, chmod, df, ram)..." />
+          </div>
+          <div id="linux-cards-container">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Print Container (hidden, used for print reports) -->
+  <div id="print-container" class="print-container"></div>
+
+  <!-- Footer -->
+  <footer class="workstation-footer no-print">
+    <p>Operating System Project &bull; Developed by Sarthak Deodhar</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
