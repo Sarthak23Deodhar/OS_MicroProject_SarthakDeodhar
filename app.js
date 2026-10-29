@@ -1,7 +1,5 @@
 /**
- * OS Workstation: Systems Benchmark & Algorithmic Analysis Suite
- * Swiss Editorial Engineering Design — Zero Emojis, Clean Architectural Light
- *
+ 
  * Core Modules:
  * 1. Virtual Memory Page Replacement & Belady's Anomaly Verification
  * 2. Multi-Algorithm CPU Scheduling & Gantt Timeline Dispatcher
