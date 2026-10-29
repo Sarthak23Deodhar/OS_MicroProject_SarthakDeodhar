@@ -1,14 +1,4 @@
-/* ==============================================================================
-   Operating System Project
-   Design: Spatial Depth Light — Layered Glassmorphism
-   Features:
-     - Slow-moving spatial gradient background blobs
-     - Heavy glassmorphism cards with backdrop-filter blur
-     - High-contrast text visibility on light base
-     - Fully responsive (mobile-first breakpoints)
-     - Electric blue / emerald / rose accent system
-     - Strict Zero-Emoji Technical Typography
-   ============================================================================== */
+
 
 :root {
   /* Light Base — Spatial Depth */
