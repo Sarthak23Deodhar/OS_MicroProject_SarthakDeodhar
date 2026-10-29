@@ -1,18 +1,18 @@
 # MICROPROJECT REPORT: OPERATING SYSTEMS
 
 ## TITLE OF MICROPROJECT
-**OS-KernelLab Pro: A Comprehensive Comparative Analysis of Page Replacement and CPU Scheduling Algorithms with an Interactive Linux Systems Command Guide**
+**A Comprehensive Comparative Analysis of Page Replacement and CPU Scheduling Algorithms with an Interactive Linux Systems Command Guide**
 
 ---
 
 ### **ACADEMIC DETAILS**
-- **Course Name:** Operating Systems
-- **Course Code:** 22516 / 313303
-- **Program:** Diploma / Degree in Computer Engineering / Information Technology
+- **Course Name:** Concepts of Operating Systems
+- **Course Code:** CSE00150
+- **Program:** Integrated B.tech Computer Science Engineering
 - **Academic Year:** 2026
-- **Student Name:** Sarthak Deodhar & Group Members
-- **Roll No / Enrollment No:** __________________________
-- **Faculty Guide:** Prof. __________________________
+- **Student Name:** Sarthak Deodhar 
+- **Roll No / PRN:** 27/ 1262240166
+
 
 ---
 
@@ -32,15 +32,7 @@ This microproject synthesizes all three domains into an interactive simulation a
 3. **Linux Shell Guide:** To develop an interactive shell script (`linux_guide.sh`) and web-based terminal simulator that explains and demonstrates fundamental Linux commands for file management, process handling, user permissions, storage, and networking.
 4. **Comparative Statements:** To calculate mathematical metrics (Hit Ratio, Fault Ratio, Turnaround Time, Waiting Time, Response Time, CPU Utilization) and synthesize formal comparative statements.
 
----
 
-## 3. COURSE OUTCOMES (COs) ADDRESSED
-- **CO-1:** Install, configure, and execute Linux commands and shell scripts for system administration.
-- **CO-2:** Apply CPU scheduling algorithms to optimize process waiting time, turnaround time, and throughput.
-- **CO-3:** Explain process synchronization, deadlock prevention, and process lifecycle.
-- **CO-4:** Evaluate memory management schemes and page replacement policies to minimize page fault frequencies.
-
----
 
 ## 4. THEORETICAL BACKGROUND & ALGORITHMS
 
@@ -91,112 +83,6 @@ This microproject synthesizes all three domains into an interactive simulation a
 - If the process does not complete within its quantum, it is preempted and appended to the tail of the ready queue.
 - Excellent response time; avoids starvation.
 
----
-
-## 5. MATHEMATICAL EQUATIONS & METRICS
-
-### Page Replacement:
-$$\text{Page Fault Ratio (\%)} = \left(\frac{\text{Total Page Faults}}{\text{Total Page References}}\right) \times 100$$
-
-$$\text{Hit Ratio (\%)} = \left(\frac{\text{Total Page Hits}}{\text{Total Page References}}\right) \times 100$$
-
-$$\text{Verification Identity:} \quad \text{Hit Ratio} + \text{Page Fault Ratio} = 100\%$$
-
-### CPU Scheduling:
-$$\text{Turnaround Time (TAT)} = \text{Completion Time (CT)} - \text{Arrival Time (AT)}$$
-
-$$\text{Waiting Time (WT)} = \text{Turnaround Time (TAT)} - \text{Burst Time (BT)}$$
-
-$$\text{Response Time (RT)} = \text{First Time Process gets CPU} - \text{Arrival Time (AT)}$$
-
-$$\text{Average Waiting Time (AWT)} = \frac{\sum_{i=1}^{n} \text{WT}_i}{n}$$
-
-$$\text{Average Turnaround Time (ATAT)} = \frac{\sum_{i=1}^{n} \text{TAT}_i}{n}$$
-
-$$\text{CPU Utilization (\%)} = \left(\frac{\text{Total CPU Busy Time}}{\text{Total Makespan Time}}\right) \times 100$$
-
----
-
-## 6. TEST CASES & COMPARATIVE ANALYSIS STATEMENTS
-
-### Test Case 1: Page Replacement Analysis
-- **Reference String:** `7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1` (20 references)
-- **Frame Capacity:** 3 frames
-
-| Algorithm | Total References | Number of Frames | Page Faults | Page Hits | Hit Ratio (%) | Fault Ratio (%) |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Optimal (OPT)** | 20 | 3 | **9** | **11** | **55.00%** | **45.00%** |
-| **LRU** | 20 | 3 | **12** | **8** | **40.00%** | **60.00%** |
-| **FIFO** | 20 | 3 | **15** | **5** | **25.00%** | **75.00%** |
-| **LFU** | 20 | 3 | **15** | **5** | **25.00%** | **75.00%** |
-
-#### **Comparative Statement for Test Case 1:**
-> *"For the standard 20-page reference sequence with 3 physical frames, the **Optimal Page Replacement Algorithm** produced the fewest page faults (9 faults, 55% hit ratio), serving as the benchmark for optimal performance. The **LRU algorithm** achieved 12 page faults (40% hit ratio) by taking advantage of temporal locality. **FIFO** experienced the highest page fault rate (15 faults, 75% fault ratio) because it replaces the oldest resident page without inspecting how recently or frequently that page is being used."*
-
----
-
-### Test Case 2: CPU Scheduling Analysis
-- **Workload:** 4 Processes
-
-| Process ID | Arrival Time (AT) | Burst Time (BT) | Priority (Lower = Higher) |
-|:---|:---:|:---:|:---:|
-| **P1** | 0 | 5 | 2 |
-| **P2** | 1 | 3 | 1 |
-| **P3** | 2 | 8 | 4 |
-| **P4** | 3 | 6 | 3 |
-
-#### Simulation Results Table:
-| Scheduling Algorithm | Total WT | Average Waiting Time (AWT) | Total TAT | Average Turnaround Time (ATAT) | Avg Response Time (ART) | CPU Utilization |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **SRTF (Preemptive SJF)** | 13 | **3.25 ms** | 35 | **8.75 ms** | 1.00 ms | 100.0% |
-| **SJF (Non-Preemptive)** | 16 | **4.00 ms** | 38 | **9.50 ms** | 4.00 ms | 100.0% |
-| **Round Robin (q = 2)** | 24 | **6.00 ms** | 46 | **11.50 ms** | 1.50 ms | 100.0% |
-| **Priority (Preemptive)** | 24 | **6.00 ms** | 46 | **11.50 ms** | 1.50 ms | 100.0% |
-| **Priority (Non-Preemptive)** | 28 | **7.00 ms** | 50 | **12.50 ms** | 7.00 ms | 100.0% |
-| **FCFS** | 28 | **7.00 ms** | 50 | **12.50 ms** | 7.00 ms | 100.0% |
-
-#### **Comparative Statement for Test Case 2:**
-> *"Across the 6 evaluated scheduling algorithms under the mixed workload, **Preemptive Shortest Remaining Time First (SRTF)** achieved the lowest Average Waiting Time of **3.25 ms** and lowest Average Turnaround Time of **8.75 ms**, optimizing overall system throughput. Non-preemptive **SJF** followed closely with an AWT of **4.00 ms**. While **FCFS** suffered from delays due to arrival order (AWT: 7.00 ms), **Round Robin (Time Quantum = 2)** demonstrated superior fairness and low response time (1.50 ms), making it the most suitable paradigm for interactive multitasking environments."*
-
----
-
-## 7. LINUX SHELL SCRIPT & COMMAND REFERENCE GUIDE
-The companion shell script `linux_guide.sh` provides an interactive, color-coded terminal menu supporting 6 core command categories:
-1. **File & Directory Management:** `ls -lah`, `pwd`, `cd`, `mkdir -p`, `cp -r`, `mv`, `rm -rf`, `touch`, `find`.
-2. **Process Management:** `ps aux`, `ps -ef`, `top`, `kill -9`, `pkill`, `nice -n`, `renice`, job controls (`bg`, `fg`, `jobs`).
-3. **Permissions & Security:** `chmod 755/644`, `chown user:group`, `useradd`, `passwd`, `sudo`, `whoami`, `id`.
-4. **System Diagnostics:** `df -h`, `du -sh`, `free -h`, `uname -a`, `uptime`, `lscpu`.
-5. **Text Processing & Streams:** `cat`, `head`, `tail -f`, `grep -rn`, `awk '{print $1}'`, `sed 's/foo/bar/g'`, `wc -l`, `sort | uniq`.
-6. **Networking & Communication:** `ping -c 4`, `ip addr show`, `curl -I`, `ss -tuln`, `ssh`, `scp`.
-
----
-
-## 8. FREQUENTLY ASKED VIVA-VOCE QUESTIONS & ANSWERS
-
-### Q1: What is a Page Fault and how does the OS handle it?
-**Ans:** A page fault is an internal interrupt (hardware trap) generated by the MMU when a requested virtual memory page is not currently resident in physical memory (valid-invalid bit is 0). The OS handles it by:
-1. Trapping into kernel mode.
-2. Checking if the memory reference is valid.
-3. Finding a free frame (or executing a page replacement algorithm to evict a victim page).
-4. Scheduling disk I/O to read the requested page into the frame.
-5. Updating the page table (marking valid bit = 1).
-6. Restarting the interrupted instruction.
-
-### Q2: What is Belady's Anomaly and which algorithms are immune to it?
-**Ans:** Belady's Anomaly is the condition where increasing the number of physical memory frames allocated to a process causes an increase in the number of page faults. It occurs in FIFO. Stack algorithms like **LRU** and **Optimal** are provably immune because the set of pages in memory for $n$ frames is always a subset of the pages for $n+1$ frames.
-
-### Q3: What is the Convoy Effect in CPU Scheduling?
-**Ans:** In FCFS scheduling, when a process with a very long CPU burst executes first, all subsequent short processes (often I/O bound) queue up behind it. This phenomenon is known as the Convoy Effect and results in low CPU and device utilization and high average waiting times.
-
-### Q4: Why is Turnaround Time different from Waiting Time?
-**Ans:** Turnaround Time ($TAT = CT - AT$) is the entire elapsed time from process submission to its complete termination. Waiting Time ($WT = TAT - BT$) represents solely the time the process spends waiting in the ready queue without access to the CPU.
-
-### Q5: What is the impact of choosing an excessively large or small Time Quantum in Round Robin?
-**Ans:** 
-- If the Time Quantum is extremely large ($q \to \infty$), Round Robin degenerates into FCFS.
-- If the Time Quantum is extremely small, excessive CPU cycles are wasted on context switching overhead rather than productive execution. An optimal quantum typically encapsulates 80% of typical CPU bursts.
-
----
 
 ## 9. CONCLUSION
 The microproject successfully implemented, evaluated, and visually simulated the key algorithms governing Operating Systems:
